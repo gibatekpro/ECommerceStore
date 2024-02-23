@@ -54,10 +54,6 @@ namespace ECommerceStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
 
