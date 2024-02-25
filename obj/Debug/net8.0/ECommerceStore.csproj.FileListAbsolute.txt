@@ -257,3 +257,12 @@
 /Users/tony/ECommerceStore/bin/Debug/net8.0/Scrutor.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/Swashbuckle.AspNetCore.Filters.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/MailKit.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/MimeKit.dll

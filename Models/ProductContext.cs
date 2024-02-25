@@ -1,8 +1,9 @@
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceStore.Models {
-    public class ProductContext : DbContext
+    public class ProductContext : IdentityDbContext<IdentityUser>
     {
 
 
