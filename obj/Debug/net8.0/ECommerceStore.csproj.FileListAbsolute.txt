@@ -253,3 +253,7 @@
 /Users/tony/ECommerceStore/bin/Debug/net8.0/dotnet-aspnet-codegenerator-design.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/checkout-sample.json
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Scrutor.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll

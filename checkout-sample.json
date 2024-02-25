@@ -1,22 +1,22 @@
 {
    "customer":{
-      "firstName":"afasa",
-      "lastName":"afasa",
-      "email":"afasa@test.com"
+      "firstName":"Tony",
+      "lastName":"Gibah",
+      "email":"tony@test.com"
    },
    "shippingAddress":{
-      "street":"afasa",
-      "city":"afasa",
-      "state":"Alberta",
-      "country":"Canada",
-      "zipCode":"afasa"
+      "street":"Wembley",
+      "city":"Brent",
+      "state":"London",
+      "country":"United Kingdom",
+      "zipCode":"HA9 0FR"
    },
    "billingAddress":{
-      "street":"fsfsf",
-      "city":"sfdsf",
-      "state":"Acre",
-      "country":"Brazil",
-      "zipCode":"19111"
+      "street":"Wembley",
+      "city":"Brent",
+      "state":"London",
+      "country":"United Kingdom",
+      "zipCode":"HA9 0FR"
    },
    "order":{
       "totalPrice":36.98,
@@ -24,13 +24,13 @@
    },
    "orderItems":[
       {
-         "imageUrl":"assets/images/products/coffeemugs/coffeemug-luv2code-1000.png",
+         "imageUrl":"assets/images/products/coffeemugs/coffeemug.png",
          "quantity":1,
          "unitPrice":18.99,
          "productId":26
       },
       {
-         "imageUrl":"assets/images/products/mousepads/mousepad-luv2code-1000.png",
+         "imageUrl":"assets/images/products/mousepads/mousepad.png",
          "quantity":1,
          "unitPrice":17.99,
          "productId":51

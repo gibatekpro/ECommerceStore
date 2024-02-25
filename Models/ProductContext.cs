@@ -1,4 +1,4 @@
-using ECommerceStore.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceStore.Models {
@@ -23,6 +23,8 @@ namespace ECommerceStore.Models {
         public DbSet<OrderItem> OrderItems  { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+        
+        public DbSet<OrderStatus> OrderStatus { get; set; }
 
     }
 

@@ -1,7 +1,4 @@
-﻿using ECommerceStore.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace ECommerceStore.Models
 {
     public class Address

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Cop/XtXLmdNtMwUuXfpEoUaUXLNBqegPVtWVeGopN6mbecuzwyt5A7ANuexHfpUo+RxA7O9PWbGnPsfqIAq3NA==",
+  "dgSpecHash": "Ph+t1jfqT/3C+uIkf/MJIJN9q/CId3XvkRlIEyXkk4KCOQ4RVPFH1SpmxhY9sMAJW+LFHvb/ygldIESuPetOag==",
   "success": true,
   "projectFilePath": "/Users/tony/ECommerceStore/ECommerceStore.csproj",
   "expectedPackageFiles": [
@@ -132,9 +132,13 @@
     "/Users/tony/.nuget/packages/nuget.projectmodel/6.3.1/nuget.projectmodel.6.3.1.nupkg.sha512",
     "/Users/tony/.nuget/packages/nuget.protocol/6.3.1/nuget.protocol.6.3.1.nupkg.sha512",
     "/Users/tony/.nuget/packages/nuget.versioning/6.3.1/nuget.versioning.6.3.1.nupkg.sha512",
+    "/Users/tony/.nuget/packages/scrutor/3.3.0/scrutor.3.3.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
-    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
-    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.annotations/6.5.0/swashbuckle.aspnetcore.annotations.6.5.0.nupkg.sha512",
+    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.filters/8.0.1/swashbuckle.aspnetcore.filters.8.0.1.nupkg.sha512",
+    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.filters.abstractions/8.0.1/swashbuckle.aspnetcore.filters.abstractions.8.0.1.nupkg.sha512",
+    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/system.codedom/5.0.0/system.codedom.5.0.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/system.collections.immutable/7.0.0/system.collections.immutable.7.0.0.nupkg.sha512",

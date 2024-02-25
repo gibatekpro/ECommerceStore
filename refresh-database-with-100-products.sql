@@ -8,6 +8,15 @@ INSERT INTO ProductCategories(CategoryName) VALUES ('Wears');
 INSERT INTO ProductCategories(CategoryName) VALUES ('Stationery');
 
 -- -----------------------------------------------------
+-- OrderStatus
+-- -----------------------------------------------------
+INSERT INTO OrderStatus(StatusName) VALUES ('Ordered');
+INSERT INTO OrderStatus(StatusName) VALUES ('Dispatched');
+INSERT INTO OrderStatus(StatusName) VALUES ('Out for delivery');
+INSERT INTO OrderStatus(StatusName) VALUES ('Delivered');
+INSERT INTO OrderStatus(StatusName) VALUES ('Cancelled');
+
+-- -----------------------------------------------------
 -- Books
 -- -----------------------------------------------------
 INSERT INTO Products (ProductName, Description, UnitPrice, ImageUrl, Active, UnitsInStock, DateCreated, LastUpdated, ProductCategoryId)

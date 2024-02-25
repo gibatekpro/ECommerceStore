@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace ECommerceStore.Models
 {
 	public class PurchaseResponse

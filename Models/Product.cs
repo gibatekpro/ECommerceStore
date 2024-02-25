@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 namespace ECommerceStore.Models{
 public class Product

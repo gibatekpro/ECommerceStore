@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ECommerceStore.Models;
+
+
 
 namespace ECommerceStore.Controllers
 {
@@ -28,10 +25,21 @@ namespace ECommerceStore.Controllers
 
             //retrieve the order info from purchase
             Order order = purchase.Order;
-
             //generate tracking number
             String orderTrackingNumber = GenerateOrderTrackingNumber();
             order.OrderTrackingNumber = orderTrackingNumber;
+            
+            //Add Date Created and Last Updated
+            order.DateCreated = DateTime.Now;
+            order.LastUpdated = DateTime.Now;
+            
+            //Set Order status to "Ordered"
+            var orderStatusFromDB = await _context.OrderStatus
+                .FirstOrDefaultAsync(c => c.StatusName == "Ordered");
+            if (orderStatusFromDB != null)
+            {
+                order.OrderStatusId = orderStatusFromDB.Id;
+            }
 
             //populate order with orderItems
             // Populate order with orderItems

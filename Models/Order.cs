@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using ECommerceStore.Models;
-
+﻿
 namespace ECommerceStore.Models
 {
     public class Order
@@ -16,9 +11,6 @@ namespace ECommerceStore.Models
         public int TotalQuantity { get; set; }
 
         public decimal TotalPrice { get; set; }
-
-
-        public string? Status { get; set; }
 
         public DateTime? DateCreated { get; set; }
 
@@ -44,6 +36,10 @@ namespace ECommerceStore.Models
          * **/
         
         public Address? BillingAddress { get; set; }
+       
+        public long? OrderStatusId { get; set; }
+        
+        public OrderStatus? OrderStatus { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
 
