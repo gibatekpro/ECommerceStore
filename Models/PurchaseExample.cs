@@ -32,23 +32,21 @@ namespace ECommerceStore.Models
                 },
                 Order = new Order
                 {
-                    TotalPrice = 36.98m,
+                    TotalPrice = 36.98,
                     TotalQuantity = 2
                 },
                 OrderItems = new List<OrderItem>
                     {
                         new OrderItem
                         {
-                            ImageUrl = "assets/images/products/coffeemugs/coffeemug.png",
                             Quantity = 1,
-                            UnitPrice = 18.99m,
+                            UnitPrice = 18.99,
                             ProductId = 26
                         },
                         new OrderItem
                         {
-                            ImageUrl = "assets/images/products/mousepads/mousepad.png",
                             Quantity = 1,
-                            UnitPrice = 17.99m,
+                            UnitPrice = 17.99,
                             ProductId = 51
                         }
                     }

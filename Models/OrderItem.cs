@@ -6,11 +6,9 @@ namespace ECommerceStore.Models
 
         public long Id { get; set; }
 
-        public string ImageUrl { get; set; }
-
         public int Quantity { get; set; }
 
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         public long ProductId { get; set; }
 

@@ -10,7 +10,7 @@ namespace ECommerceStore.Models
 
         public int TotalQuantity { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         public DateTime? DateCreated { get; set; }
 

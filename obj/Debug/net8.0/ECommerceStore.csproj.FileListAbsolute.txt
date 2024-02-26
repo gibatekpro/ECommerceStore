@@ -266,3 +266,4 @@
 /Users/tony/ECommerceStore/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/MailKit.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/MimeKit.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
