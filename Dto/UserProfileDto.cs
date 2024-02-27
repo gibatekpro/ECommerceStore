@@ -2,22 +2,19 @@ using ECommerceStore.Models;
 
 namespace ECommerceStore.Dto;
 
-public class CustomerDto
+public class UserProfileDto
 {
 
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
 
-    public string Email { get; set; }
-
-    public Customer ToCustomer()
+    public UserProfile ToUserProfile()
     {
-        return new Customer
+        return new UserProfile
         {
             FirstName = this.FirstName,
             LastName = this.LastName,
-            Email = this.Email
 
         };
     }

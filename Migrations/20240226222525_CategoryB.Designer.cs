@@ -4,6 +4,7 @@ using ECommerceStore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceStore.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    partial class ProductContextModelSnapshot : ModelSnapshot
+    [Migration("20240226222525_CategoryB")]
+    partial class CategoryB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +58,31 @@ namespace ECommerceStore.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("ECommerceStore.Models.Customer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("ECommerceStore.Models.Order", b =>
                 {
                     b.Property<long>("Id")
@@ -64,6 +92,9 @@ namespace ECommerceStore.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long?>("BillingAddressId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DateCreated")
@@ -87,18 +118,15 @@ namespace ECommerceStore.Migrations
                     b.Property<int>("TotalQuantity")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserProfileId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BillingAddressId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("OrderStatusId");
 
                     b.HasIndex("ShippingAddressId");
-
-                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Orders");
                 });
@@ -205,34 +233,6 @@ namespace ECommerceStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategories");
-                });
-
-            modelBuilder.Entity("ECommerceStore.Models.UserProfile", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -439,6 +439,12 @@ namespace ECommerceStore.Migrations
                         .WithMany()
                         .HasForeignKey("BillingAddressId");
 
+                    b.HasOne("ECommerceStore.Models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ECommerceStore.Models.OrderStatus", "OrderStatus")
                         .WithMany("Orders")
                         .HasForeignKey("OrderStatusId");
@@ -447,17 +453,13 @@ namespace ECommerceStore.Migrations
                         .WithMany()
                         .HasForeignKey("ShippingAddressId");
 
-                    b.HasOne("ECommerceStore.Models.UserProfile", "UserProfile")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserProfileId");
-
                     b.Navigation("BillingAddress");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("OrderStatus");
 
                     b.Navigation("ShippingAddress");
-
-                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("ECommerceStore.Models.OrderItem", b =>
@@ -472,7 +474,7 @@ namespace ECommerceStore.Migrations
             modelBuilder.Entity("ECommerceStore.Models.Product", b =>
                 {
                     b.HasOne("ECommerceStore.Models.ProductCategory", "ProductCategory")
-                        .WithMany()
+                        .WithMany("ProductList")
                         .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -531,6 +533,11 @@ namespace ECommerceStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ECommerceStore.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("ECommerceStore.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -541,9 +548,9 @@ namespace ECommerceStore.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("ECommerceStore.Models.UserProfile", b =>
+            modelBuilder.Entity("ECommerceStore.Models.ProductCategory", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("ProductList");
                 });
 #pragma warning restore 612, 618
         }

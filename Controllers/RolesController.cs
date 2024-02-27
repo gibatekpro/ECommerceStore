@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 namespace ECommerceStore.Controllers;
 
 [Route("api/[controller]")]
+
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Manager")]
     public class RolesController : ControllerBase
     {
         private readonly RoleManager<IdentityRole> _roleManager;

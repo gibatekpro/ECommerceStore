@@ -17,7 +17,7 @@ namespace ECommerceStore.Models {
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
         public DbSet<Address> Addresses  { get; set; }
 

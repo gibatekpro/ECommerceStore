@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace ECommerceStore.Models
 {
     public class Order
@@ -16,45 +18,33 @@ namespace ECommerceStore.Models
 
         public DateTime? LastUpdated { get; set; }
 
-        public long CustomerId { get; set; }
+        public long? UserProfileId { get; set; }
 
-        public Customer? Customer { get; set; }
+        [JsonIgnore]
+        public UserProfile? UserProfile { get; set; }
 
         public long? ShippingAddressId { get; set; }
-
         
+        [JsonIgnore]
         public Address? ShippingAddress { get; set; }
 
         public long? BillingAddressId { get; set; }
 
-        /*
-         * 
-         * If the key is not nullable the related object 
-         * must be deleted, and circular relations don't 
-         * allow that. So use nullable foreign key.
-         * 
-         * **/
-        
+        [JsonIgnore]
         public Address? BillingAddress { get; set; }
        
         public long? OrderStatusId { get; set; }
         
+        [JsonIgnore]
         public OrderStatus? OrderStatus { get; set; }
 
+        [JsonIgnore]
         public ICollection<OrderItem> OrderItems { get; set; }
 
         public Order()
         {
-            OrderItems = new HashSet<OrderItem>();
+            OrderItems = new List<OrderItem>();
         }
 
-        public void Add(OrderItem item)
-        {
-            if (item != null)
-            {
-                OrderItems.Add(item);
-                item.Order = this;
-            }
-        }
     }
 }

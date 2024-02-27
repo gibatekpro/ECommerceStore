@@ -1,7 +1,7 @@
 ﻿
 namespace ECommerceStore.Models
 {
-    public class Customer
+    public class UserProfile
     {
 
         public long Id { get; set; }
@@ -9,23 +9,17 @@ namespace ECommerceStore.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+        
+        public string? UserId { get; set; }
 
         public string Email { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-
-        public Customer()
+        
+        public UserProfile()
         {
             Orders = new HashSet<Order>();
         }
 
-        public void Add(Order order)
-        {
-            if (order != null)
-            {
-                Orders.Add(order);
-                order.CustomerId = Id;
-            }
-        }
     }
 }

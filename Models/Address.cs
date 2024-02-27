@@ -16,7 +16,6 @@ namespace ECommerceStore.Models
 
         public string ZipCode { get; set; }
 
-        //public Order Order { get; set; }//TODO: check
     }
 }
 

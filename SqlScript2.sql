@@ -1,11 +1,29 @@
+-- noinspection SqlDialectInspectionForFile
 
--- -----------------------------------------------------
--- Categories
--- -----------------------------------------------------
-INSERT INTO ProductCategories(CategoryName) VALUES ('Books');
-INSERT INTO ProductCategories(CategoryName) VALUES ('HouseHold Appliances');
-INSERT INTO ProductCategories(CategoryName) VALUES ('Wears');
-INSERT INTO ProductCategories(CategoryName) VALUES ('Stationery');
+-- noinspection SqlNoDataSourceInspectionForFile
+
+-- Run this script next because ProductCategoryId in
+-- Products table depends on ProductsCategory table
+
+-- -------------------------------------------------------
+-- Drop existing data from tables
+-- --------------------------------------------------------
+DELETE FROM OrderItems;
+DELETE FROM Orders;
+DELETE FROM UserProfiles;
+DELETE FROM Products;
+DELETE FROM OrderStatus;
+DELETE FROM AspNetUsers;
+DELETE FROM AspNetRoles;
+
+-- -------------------------------------------------------
+-- Reset the identity seed for a table
+-- -------------------------------------------------------
+DBCC CHECKIDENT ('OrderItems', RESEED, 0);
+DBCC CHECKIDENT ('Orders', RESEED, 0);
+DBCC CHECKIDENT ('UserProfiles', RESEED, 0);
+DBCC CHECKIDENT ('Products', RESEED, 0);
+DBCC CHECKIDENT ('OrderStatus', RESEED, 0);
 
 -- -----------------------------------------------------
 -- OrderStatus

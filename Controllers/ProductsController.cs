@@ -1,6 +1,10 @@
+using ECommerceStore.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ECommerceStore.Models;
+using ECommerceStore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ECommerceStore.Controllers
 {
@@ -9,17 +13,57 @@ namespace ECommerceStore.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly ProductContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public ProductsController(ProductContext context)
+        public ProductsController(ProductContext context,UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, EmailService emailService, IConfiguration configuration)
         {
             _context = context;
+            _userManager = userManager;  
+            _signInManager = signInManager;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(p => p.ProductCategory).ToListAsync();
+        }
+        
+        // GET: api/Products/FindByCategoryId
+        [HttpGet("FindByCategoryId")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategoryId([FromQuery] long id)
+        {
+            var products = await _context.Products
+                .Where(p => p.ProductCategoryId == id)
+                .ToListAsync();
+
+            if (products == null || !products.Any())
+            {
+                return NotFound();
+            }
+
+            return products;
+        }
+        
+        // GET: api/Products/FindByProductName
+        [HttpGet("FindByProductName")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByProductName([FromQuery] string name)
+        {
+            var products = await _context.Products
+                .Where(p => EF.Functions.Like(p.ProductName, $"%{name}%"))
+                .ToListAsync();
+
+            if (products == null || !products.Any())
+            {
+                return NotFound();
+            }
+
+            return products;
         }
 
         // GET: api/Products/5
@@ -39,17 +83,21 @@ namespace ECommerceStore.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(long id, Product product)
+        [Authorize(Roles = "Manager,Admin")]
+        public async Task<ActionResult<Product>> PutProduct(long id, ProductDto productDto)
         {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
+            Product? product = new Product();
             try
             {
+                
+                product = await _context.Products.FindAsync(id);
+
+                product = productDto.ProductUpdate(product);
+                
+                product.LastUpdated = DateTime.Now;
+            
+                _context.Entry(product).State = EntityState.Modified;
+                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -64,14 +112,22 @@ namespace ECommerceStore.Controllers
                 }
             }
 
-            return NoContent();
+            return product;
         }
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        [Authorize(Roles = "Manager,Admin")]
+        public async Task<ActionResult<Product>> PostProduct(ProductDto productDto)
         {
+            Product product = productDto.ToProduct();
+            
+            //The product was just created
+            //and therefore just updated
+            product.DateCreated = DateTime.Now;
+            product.LastUpdated = DateTime.Now;
+            
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
@@ -80,6 +136,7 @@ namespace ECommerceStore.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Manager,Admin")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
             var product = await _context.Products.FindAsync(id);

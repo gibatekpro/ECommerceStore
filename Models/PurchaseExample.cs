@@ -8,11 +8,10 @@ namespace ECommerceStore.Models
         {
             return new Purchase
             {
-                Customer = new Customer
+                UserProfile = new UserProfile
                 {
                     FirstName = "Tony",
                     LastName = "Gibah",
-                    Email = "tony@test.com"
                 },
                 ShippingAddress = new Address
                 {

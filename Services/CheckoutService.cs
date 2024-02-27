@@ -1,25 +1,50 @@
+using System.Security.Claims;
 using ECommerceStore.Models;
+using ECommerceStore.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceStore.Dto;
 
-public class CheckoutService(PurchaseDto _PurchaseDto, ProductContext _Context)
+public class CheckoutService
 {
-    private PurchaseDto _PurchaseDto = _PurchaseDto;
-
-    private ProductContext _Context = _Context;
+    private PurchaseDto _PurchaseDto;
+    private readonly ProductContext _Context;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly ClaimsPrincipal _user;
     
+    public CheckoutService(PurchaseDto purchaseDto, 
+        ProductContext context,UserManager<IdentityUser> userManager, 
+        ClaimsPrincipal user)
+    {
+        _Context = context;
+        _userManager = userManager;
+        _PurchaseDto = purchaseDto;
+        _user = user;
+    }
+
+
     public async Task<Order> Checkout()
     {
+        
         Order order = await GetOrder();
 
-        //Add order to Customer
-        await AddOrderToCustomer(order);
+        _Context.Orders.Add(order);
+
+        try
+        {
+            await _Context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
 
         return order;
     }
 
-    private async Task<Order> GetOrder() {
+    private async Task<Order> GetOrder()
+    {
         return new Order
         {
             OrderTrackingNumber = GenerateOrderTrackingNumber(),
@@ -30,40 +55,20 @@ public class CheckoutService(PurchaseDto _PurchaseDto, ProductContext _Context)
             ShippingAddress = _PurchaseDto.ShippingAddress.ToAddress(),
             BillingAddress = _PurchaseDto.BillingAddress.ToAddress(),
             OrderStatus = await SetOrderStatus(),
-            OrderItems = await GetOrderItems()
+            UserProfile = await SetUserProfile(),
+            OrderItems = SetOrderItems(),
         };
     }
 
-    private async Task<ICollection<OrderItem>> GetOrderItems()
+    private ICollection<OrderItem> SetOrderItems()
     {
-        // Create a new list to store OrderItem objects
-        List<OrderItem> orderItems = new List<OrderItem>();
-
-        // Iterate over each OrderItemDto in purchase.OrderItems
-        foreach (OrderItemDto orderItemDto in _PurchaseDto.OrderItems)
+        ICollection<OrderItem> orderItems = new List<OrderItem>();
+        
+        foreach (var orderItem in _PurchaseDto.OrderItems)
         {
-            // Convert OrderItemDto to OrderItem using ToOrderItem() method
-            OrderItem orderItem = orderItemDto.ToOrderItem();
-
-            var productFromDB = await _Context.Products
-                .FirstOrDefaultAsync(p => p.Id == orderItem.ProductId);
-
-            if (productFromDB != null)
-            {
-                orderItem.UnitPrice = productFromDB.UnitPrice;
-            }
-
-            else
-            {
-                // If the product is not found, throw an exception
-                throw new Exception($"Product with ID {orderItem.ProductId} not found.");
-            }
-
-            // Add the converted OrderItem to the list
-            orderItems.Add(orderItem);
+            orderItems.Add(orderItem.ToOrderItem());
         }
-
-        // Convert the list to ICollection<OrderItem> and return
+        
         return orderItems;
     }
 
@@ -79,12 +84,12 @@ public class CheckoutService(PurchaseDto _PurchaseDto, ProductContext _Context)
         double totalPrice = 0;
         foreach (var orderItem in _PurchaseDto.OrderItems)
         {
-            var productFromDB = await _Context.Products
+            var productFromDb = await _Context.Products
                 .FirstOrDefaultAsync(p => p.Id == orderItem.ProductId);
 
-            if (productFromDB != null)
+            if (productFromDb != null)
             {
-                totalPrice += productFromDB.UnitPrice;
+                totalPrice += productFromDb.UnitPrice;
             }
             else
             {
@@ -95,14 +100,25 @@ public class CheckoutService(PurchaseDto _PurchaseDto, ProductContext _Context)
 
         return totalPrice;
     }
-
+    
     private int CalculateTotalQuantity()
     {
+        
         int totalQuantity = 0;
-        foreach (var orderItem in _PurchaseDto.OrderItems)
+
+        try
         {
-            totalQuantity += orderItem.Quantity;
+            
+            foreach (var orderItem in _PurchaseDto.OrderItems)
+            {
+                totalQuantity += orderItem.Quantity;
+            }
         }
+        catch (Exception e)
+        {
+            throw new Exception($"YUUUUPPDPDPPD");
+        }
+
 
         return totalQuantity;
     }
@@ -112,50 +128,31 @@ public class CheckoutService(PurchaseDto _PurchaseDto, ProductContext _Context)
         // Generate a random UUID (GUID version-4)
         return Guid.NewGuid().ToString();
     }
-    
-    private async Task AddOrderToCustomer(Order order)
+
+    private async Task<UserProfile> SetUserProfile()
     {
-            
-        //populate customer with order
-        Customer customer = _PurchaseDto.Customer.ToCustomer();
-
-        // check if this is an existing customer
-        String email = customer.Email;
-
-        var customerFromDB = await _Context.Customers
-            .FirstOrDefaultAsync(c => c.Email == email);
-
-        if (customerFromDB != null)
+        var userEmail = _user.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userEmail))
         {
-            // we found them... let's assign them accordingly
-            customer = customerFromDB;
-
-            //update the customer
-            _Context.Entry(customer).State = EntityState.Modified;
-                
-            //Add order to customer
-            customer.Add(order);
-        }
-        else
-        {
-            //Not found...Now we add the order to the customer
-            _Context.Customers.Add(customer);
-                
-            //Add order to customer
-            customer.Add(order);
-
-        }
-
-        try
-        {
-            await _Context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            throw;
+            // User is not authenticated or user ID claim is not found
+            throw new Exception("User is not authenticated or user ID claim is not found");
         }
         
-    }
+        var user = await _userManager.FindByEmailAsync(userEmail);
+        var userId =  user?.Id;
+        
+        //UserProfile
+        UserProfile userProfile = _PurchaseDto.UserProfile.ToUserProfile();
+        
+        // Save authenticated user's Id on Profile table
+        userProfile.Email = userEmail;
+        userProfile.UserId = userId;
 
+        //Check if profile already exists to avoid creating it again
+        var userProfileFromDb = await _Context.UserProfiles
+            .FirstOrDefaultAsync(c => c.Email == userProfile.Email);
+
+        return userProfileFromDb ?? userProfile;
+    }
 
 }

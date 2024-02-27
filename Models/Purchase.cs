@@ -3,7 +3,7 @@ namespace ECommerceStore.Models
 {
 	public class Purchase
 	{
-        public Customer Customer { get; set; }
+        public UserProfile UserProfile { get; set; }
 
         public Address ShippingAddress { get; set; }
 

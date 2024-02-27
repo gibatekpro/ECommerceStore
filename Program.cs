@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using System.Text;
 using ECommerceStore.Controllers;
+using ECommerceStore.Dto;
 using ECommerceStore.Models;
 using ECommerceStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ProductContext>().AddDefaultTokenProviders();
+
+builder.Services.AddScoped<ClaimsPrincipal>(s => 
+    s.GetService<IHttpContextAccessor>()!.HttpContext!.User);
 
 builder.Services.AddScoped<RolesController>();
 
@@ -50,7 +55,6 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,29 +68,47 @@ app.MapControllers(); //Map controllers automatically
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+//database operations when the program first starts
+using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateScope())
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    //Run Db script to create Products and ProductCategories
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ProductContext>();
+    DatabaseInitializerService.Initialize(dbContext);
 
-//app.MapGet("/weatherforecast", () =>
-//{
-//    var forecast =  Enumerable.Range(1, 5).Select(index =>
-//        new WeatherForecast
-//        (
-//            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//            Random.Shared.Next(-20, 55),
-//            summaries[Random.Shared.Next(summaries.Length)]
-//        ))
-//        .ToArray();
-//    return forecast;
-//})
-//.WithName("GetWeatherForecast")
-//.WithOpenApi();
+    //Create Roles
+    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() }; //Roles to be added
+
+    foreach (var role in roles)
+    {
+        //Ensure the role does not exist to prevent duplicate entry
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
+//database operations when the program first starts
+using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateScope())
+{
+    //Create User
+    var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    string email = "manager@gmail.com";
+    string password = "Password123,"; //Password must contain special character
+
+    if (await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new IdentityUser();
+        user.Email = email;
+        user.UserName = email;
+        user.EmailConfirmed = true;
+
+        await userManager.CreateAsync(user, password);
+
+        await userManager.AddToRolesAsync(user, new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
+    }
+}
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

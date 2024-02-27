@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ECommerceStore.Models
 
 {
@@ -7,6 +9,7 @@ namespace ECommerceStore.Models
 
         public string StatusName { get; set; }
 
+        [JsonIgnore]
         public ICollection<Order> Orders { get; set; }
         
     } 

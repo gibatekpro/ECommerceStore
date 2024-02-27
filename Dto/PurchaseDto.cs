@@ -4,7 +4,7 @@ namespace ECommerceStore.Dto;
 
 public class PurchaseDto
 {
-    public CustomerDto Customer { get; set; }
+    public UserProfileDto UserProfile { get; set; }
     
     public AddressDto ShippingAddress { get; set; }
 

@@ -21,7 +21,7 @@ namespace ECommerceStore.Controllers
 
         public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, EmailService emailService, IConfiguration configuration)
         {
-            _userManager = userManager;
+            _userManager = userManager;  
             _signInManager = signInManager;
             _emailService = emailService;
             _configuration = configuration;
@@ -68,6 +68,9 @@ namespace ECommerceStore.Controllers
 
             if (result.Succeeded)
             {
+                //Email Confirmed. Add user to Role "User"
+                await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
+                
                 return Ok("Email verification successful.");
             }
 
