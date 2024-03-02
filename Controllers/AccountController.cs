@@ -88,7 +88,7 @@ public class AccountController : ControllerBase
             _logger.LogInformation(MyLogEvents.VerifyingAccount,"Verifying account at {DT} ",
                 DateTime.UtcNow.ToLongTimeString());
             
-            return Ok("Email verification successful.");
+            return Ok("Email verification successful. Proceed to log in");
         }
 
         _logger.LogWarning(MyLogEvents.AuthenticationFailed,"Failed to Verify Email at {DT} ",
@@ -115,9 +115,11 @@ public class AccountController : ControllerBase
             var user = await _userManager.FindByEmailAsync(model.Email);
             var roles = await _userManager.GetRolesAsync(user);
             var token = GenerateJwtToken(user, roles);
+            
             _logger.LogInformation(MyLogEvents.SigningInAccount,"Login successful at {DT}. Jwt Token generated: {token}  ",
                 DateTime.UtcNow.ToLongTimeString(), token);
-            return Ok(new { Token = token });
+            
+            return Ok(new LoginResponse("Login successful", user.Id, user.Email!, token));
         }
         
         _logger.LogWarning(MyLogEvents.AuthenticationFailed,"Failed to log in at {DT} ",
@@ -162,4 +164,5 @@ public class AccountController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    
 }

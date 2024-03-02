@@ -24,5 +24,6 @@ public class Product
 
     public long ProductCategoryId { get; set; }
 
-    [JsonIgnore] public ProductCategory ProductCategory { get; set; }
+    [JsonIgnore] 
+    public ProductCategory ProductCategory { get; set; }
 }

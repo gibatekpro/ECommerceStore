@@ -2,7 +2,7 @@
 
 -- noinspection SqlNoDataSourceInspectionForFile
 
--- Run this script first because ProductCategoryId in
+-- Run this script next because ProductCategoryId in
 -- Products table depends on ProductsCategory table
 
 -- -------------------------------------------------------
@@ -16,7 +16,6 @@ FROM ProductCategories;
 -- -------------------------------------------------------
 DBCC
 CHECKIDENT ('ProductCategories', RESEED, 0);
-
 
 -- -----------------------------------------------------
 -- Categories

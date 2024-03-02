@@ -17,11 +17,15 @@ FROM UserProfiles;
 DELETE
 FROM Products;
 DELETE
+FROM ProductCategories;
+DELETE
 FROM OrderStatus;
 DELETE
 FROM AspNetUsers;
 DELETE
 FROM AspNetRoles;
+DELETE
+FROM Addresses;
 
 -- -------------------------------------------------------
 -- Reset the identity seed for a table
@@ -36,10 +40,15 @@ DBCC
 CHECKIDENT ('Products', RESEED, 0);
 DBCC
 CHECKIDENT ('OrderStatus', RESEED, 0);
+DBCC
+CHECKIDENT ('Addresses', RESEED, 0);
+DBCC
+CHECKIDENT ('ProductCategories', RESEED, 0);
 
 -- -----------------------------------------------------
 -- OrderStatus
 -- -----------------------------------------------------
+
 INSERT INTO OrderStatus(StatusName)
 VALUES ('Ordered');
 INSERT INTO OrderStatus(StatusName)
@@ -50,6 +59,18 @@ INSERT INTO OrderStatus(StatusName)
 VALUES ('Delivered');
 INSERT INTO OrderStatus(StatusName)
 VALUES ('Cancelled');
+
+-- -----------------------------------------------------
+-- Categories
+-- -----------------------------------------------------
+INSERT INTO ProductCategories(CategoryName)
+VALUES ('Books');
+INSERT INTO ProductCategories(CategoryName)
+VALUES ('HouseHold Appliances');
+INSERT INTO ProductCategories(CategoryName)
+VALUES ('Wears');
+INSERT INTO ProductCategories(CategoryName)
+VALUES ('Stationery');
 
 -- -----------------------------------------------------
 -- Books

@@ -67,6 +67,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllers();
+
+// builder.Services.AddDbContext<ProductContext>(options =>
+//     options.UseSqlite(builder.Configuration.GetConnectionString("Connection")));
+
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 

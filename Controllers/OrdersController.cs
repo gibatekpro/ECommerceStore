@@ -49,7 +49,10 @@ public class OrdersController : ControllerBase
             DateTime.UtcNow.ToLongTimeString());
 
         //Now we fetch the Id of the authenticated user
-        var authId = GetAuthenticatedUserId(userId);
+        var authId = await GetAuthenticatedUserId(userId);
+        
+        _logger.LogInformation(MyLogEvents.ListItems,">>>>>Getting All Orders for specific user {authId} at {DT} ",
+            authId, DateTime.UtcNow.ToLongTimeString());
 
         //Check if provided id belongs to the authenticated user
         if (authId.Equals(userId))
@@ -83,7 +86,7 @@ public class OrdersController : ControllerBase
             .Where(p => EF.Functions.Like(p.OrderStatus!.StatusName, $"%{status}%"))
             .ToListAsync();
 
-        if (orders == null || !orders.Any())
+        if (!orders.Any())
         {
             _logger.LogWarning(MyLogEvents.GetItemNotFound, "Get({status}) NOT FOUND", status);
 
@@ -243,12 +246,14 @@ public class OrdersController : ControllerBase
     {
         
         var userEmail = _user.FindFirstValue(ClaimTypes.NameIdentifier);
+        
         if (string.IsNullOrEmpty(userEmail))
             // User is not authenticated or user ID claim is not found
             throw new Exception("User is not authenticated or user ID claim is not found");
 
         var user = await _userManager.FindByEmailAsync(userEmail);
-
+        
+        
         return user!.Id;
     }
 
