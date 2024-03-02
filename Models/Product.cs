@@ -1,7 +1,7 @@
-
 using System.Text.Json.Serialization;
 
-namespace ECommerceStore.Models{
+namespace ECommerceStore.Models;
+
 public class Product
 {
     public long Id { get; set; }
@@ -23,10 +23,6 @@ public class Product
     public DateTime? LastUpdated { get; set; }
 
     public long ProductCategoryId { get; set; }
-    
-    [JsonIgnore]
-    public ProductCategory ProductCategory { get; set; }
 
-    }
-
+    [JsonIgnore] public ProductCategory ProductCategory { get; set; }
 }

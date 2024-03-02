@@ -1,14 +1,14 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using ECommerceStore.Controllers;
-using ECommerceStore.Dto;
 using ECommerceStore.Models;
 using ECommerceStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Filters;
+using NuGet.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ProductContext>().AddDefaultTokenProviders();
 
-builder.Services.AddScoped<ClaimsPrincipal>(s => 
+builder.Services.AddScoped<ClaimsPrincipal>(s =>
     s.GetService<IHttpContextAccessor>()!.HttpContext!.User);
 
 builder.Services.AddScoped<RolesController>();
@@ -38,6 +38,21 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = builder.Configuration["Jwt:Issuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
+        // Other configs...
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = async context =>
+            {
+                // Call this to skip the default logic and avoid using the default response
+                context.HandleResponse();
+
+                // Write to the response in any way you wish
+                context.Response.StatusCode = 401;
+                context.Response.Headers.Append("my-custom-header", "custom-value");
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new ExceptionHandler("UnAuthorized Access")));
+                context.Response.ContentType.ToJson();
+            }
+        };
     });
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -54,6 +69,11 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+
+//logger
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 
 var app = builder.Build();
 
@@ -77,16 +97,13 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
 
     //Create Roles
     var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() }; //Roles to be added
+    var roles = new[]
+        { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() }; //Roles to be added
 
     foreach (var role in roles)
-    {
         //Ensure the role does not exist to prevent duplicate entry
         if (!await roleManager.RoleExistsAsync(role))
-        {
             await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
 }
 
 //database operations when the program first starts
@@ -95,8 +112,8 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
     //Create User
     var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    string email = "manager@gmail.com";
-    string password = "Password123,"; //Password must contain special character
+    var email = "manager@gmail.com";
+    var password = "Password123,"; //Password must contain special character
 
     if (await userManager.FindByEmailAsync(email) == null)
     {
@@ -107,7 +124,8 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
 
         await userManager.CreateAsync(user, password);
 
-        await userManager.AddToRolesAsync(user, new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
+        await userManager.AddToRolesAsync(user,
+            new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
     }
 }
 

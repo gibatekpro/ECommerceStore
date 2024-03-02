@@ -18,11 +18,11 @@ public class AddressDto
     {
         return new Address
         {
-            City = this.City,
-            Country = this.Country,
-            State = this.State,
-            Street = this.Street,
-            ZipCode = this.ZipCode
+            City = City,
+            Country = Country,
+            State = State,
+            Street = Street,
+            ZipCode = ZipCode
         };
     }
 }

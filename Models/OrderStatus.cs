@@ -1,16 +1,12 @@
 using System.Text.Json.Serialization;
 
-namespace ECommerceStore.Models
+namespace ECommerceStore.Models;
 
+public class OrderStatus
 {
-    public class OrderStatus
-    {
-        public long Id { get; set; }
+    public long Id { get; set; }
 
-        public string StatusName { get; set; }
+    public string StatusName { get; set; }
 
-        [JsonIgnore]
-        public ICollection<Order> Orders { get; set; }
-        
-    } 
+    [JsonIgnore] public ICollection<Order> Orders { get; set; }
 }

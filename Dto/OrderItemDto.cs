@@ -4,7 +4,6 @@ namespace ECommerceStore.Dto;
 
 public class OrderItemDto
 {
-    
     public int Quantity { get; set; }
 
     public long ProductId { get; set; }
@@ -13,10 +12,9 @@ public class OrderItemDto
     {
         return new OrderItem
         {
-            Quantity = this.Quantity,
-            
-            ProductId = this.ProductId
+            Quantity = Quantity,
+
+            ProductId = ProductId
         };
     }
-
 }

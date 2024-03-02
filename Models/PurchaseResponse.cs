@@ -1,17 +1,11 @@
-﻿
-namespace ECommerceStore.Models
+﻿namespace ECommerceStore.Models;
+
+public class PurchaseResponse
 {
-	public class PurchaseResponse
-	{
-
-        public String OrderTrackingNumber { get; set; }
-
-        public PurchaseResponse(String OrderTrackingNumber)
-		{
-			this.OrderTrackingNumber = OrderTrackingNumber;
-		}
-
-
+    public PurchaseResponse(string OrderTrackingNumber)
+    {
+        this.OrderTrackingNumber = OrderTrackingNumber;
     }
-}
 
+    public string OrderTrackingNumber { get; set; }
+}

@@ -4,7 +4,6 @@ namespace ECommerceStore.Dto;
 
 public class ProductDto
 {
-
     public string ProductName { get; set; }
 
     public string? Description { get; set; }
@@ -23,25 +22,25 @@ public class ProductDto
     {
         return new Product
         {
-            ProductName = this.ProductName,
-            Description = this.Description,
-            UnitPrice = this.UnitPrice,
-            ImageUrl = this.ImageUrl,
-            Active = this.Active,
-            UnitsInStock = this.UnitsInStock,
-            ProductCategoryId = this.ProductCategoryId
+            ProductName = ProductName,
+            Description = Description,
+            UnitPrice = UnitPrice,
+            ImageUrl = ImageUrl,
+            Active = Active,
+            UnitsInStock = UnitsInStock,
+            ProductCategoryId = ProductCategoryId
         };
     }
+
     public Product ProductUpdate(Product product)
     {
-
-        product.ProductName = this.ProductName;
-        product.Description = this.Description;
-        product.UnitPrice = this.UnitPrice;
-        product.ImageUrl = this.ImageUrl;
-        product.Active = this.Active;
-        product.UnitsInStock = this.UnitsInStock;
-        product.ProductCategoryId = this.ProductCategoryId;
+        product.ProductName = ProductName;
+        product.Description = Description;
+        product.UnitPrice = UnitPrice;
+        product.ImageUrl = ImageUrl;
+        product.Active = Active;
+        product.UnitsInStock = UnitsInStock;
+        product.ProductCategoryId = ProductCategoryId;
 
         return product;
     }

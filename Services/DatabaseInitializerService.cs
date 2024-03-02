@@ -1,16 +1,15 @@
 using ECommerceStore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceStore.Services;
 
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 public static class DatabaseInitializerService
 {
     public static void Initialize(ProductContext dbContext)
     {
         // Read the SQL scripts
-        string script1 = File.ReadAllText("SqlScript.sql");
-        string script2 = File.ReadAllText("SqlScript2.sql");
+        var script1 = File.ReadAllText("SqlScript.sql");
+        var script2 = File.ReadAllText("SqlScript2.sql");
 
         using (var transaction = dbContext.Database.BeginTransaction())
         {

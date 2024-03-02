@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using ECommerceStore.Models;
-using ECommerceStore.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,13 +7,13 @@ namespace ECommerceStore.Dto;
 
 public class CheckoutService
 {
-    private PurchaseDto _PurchaseDto;
     private readonly ProductContext _Context;
-    private readonly UserManager<IdentityUser> _userManager;
     private readonly ClaimsPrincipal _user;
-    
-    public CheckoutService(PurchaseDto purchaseDto, 
-        ProductContext context,UserManager<IdentityUser> userManager, 
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly PurchaseDto _PurchaseDto;
+
+    public CheckoutService(PurchaseDto purchaseDto,
+        ProductContext context, UserManager<IdentityUser> userManager,
         ClaimsPrincipal user)
     {
         _Context = context;
@@ -26,8 +25,7 @@ public class CheckoutService
 
     public async Task<Order> Checkout()
     {
-        
-        Order order = await GetOrder();
+        var order = await GetOrder();
 
         _Context.Orders.Add(order);
 
@@ -37,6 +35,7 @@ public class CheckoutService
         }
         catch (Exception ex)
         {
+            
             throw new Exception(ex.Message);
         }
 
@@ -56,19 +55,16 @@ public class CheckoutService
             BillingAddress = _PurchaseDto.BillingAddress.ToAddress(),
             OrderStatus = await SetOrderStatus(),
             UserProfile = await SetUserProfile(),
-            OrderItems = SetOrderItems(),
+            OrderItems = SetOrderItems()
         };
     }
 
     private ICollection<OrderItem> SetOrderItems()
     {
         ICollection<OrderItem> orderItems = new List<OrderItem>();
-        
-        foreach (var orderItem in _PurchaseDto.OrderItems)
-        {
-            orderItems.Add(orderItem.ToOrderItem());
-        }
-        
+
+        foreach (var orderItem in _PurchaseDto.OrderItems) orderItems.Add(orderItem.ToOrderItem());
+
         return orderItems;
     }
 
@@ -76,7 +72,7 @@ public class CheckoutService
     {
         //Get Order status "Ordered"
         return await _Context.OrderStatus
-            .FirstOrDefaultAsync(c => c.StatusName == "Ordered");
+            .FirstOrDefaultAsync(c => c.StatusName == OrderStatusType.Ordered.ToString());
     }
 
     private async Task<double> CalculateTotalPrice()
@@ -88,35 +84,26 @@ public class CheckoutService
                 .FirstOrDefaultAsync(p => p.Id == orderItem.ProductId);
 
             if (productFromDb != null)
-            {
                 totalPrice += productFromDb.UnitPrice;
-            }
             else
-            {
                 // If the product is not found, throw an exception
                 throw new Exception($"Product with ID {orderItem.ProductId} not found.");
-            }
         }
 
         return totalPrice;
     }
-    
+
     private int CalculateTotalQuantity()
     {
-        
-        int totalQuantity = 0;
+        var totalQuantity = 0;
 
         try
         {
-            
-            foreach (var orderItem in _PurchaseDto.OrderItems)
-            {
-                totalQuantity += orderItem.Quantity;
-            }
+            foreach (var orderItem in _PurchaseDto.OrderItems) totalQuantity += orderItem.Quantity;
         }
         catch (Exception e)
         {
-            throw new Exception($"YUUUUPPDPDPPD");
+            throw new Exception("YUUUUPPDPDPPD");
         }
 
 
@@ -133,17 +120,15 @@ public class CheckoutService
     {
         var userEmail = _user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userEmail))
-        {
             // User is not authenticated or user ID claim is not found
             throw new Exception("User is not authenticated or user ID claim is not found");
-        }
-        
+
         var user = await _userManager.FindByEmailAsync(userEmail);
-        var userId =  user?.Id;
-        
+        var userId = user?.Id;
+
         //UserProfile
-        UserProfile userProfile = _PurchaseDto.UserProfile.ToUserProfile();
-        
+        var userProfile = _PurchaseDto.UserProfile.ToUserProfile();
+
         // Save authenticated user's Id on Profile table
         userProfile.Email = userEmail;
         userProfile.UserId = userId;
@@ -154,5 +139,4 @@ public class CheckoutService
 
         return userProfileFromDb ?? userProfile;
     }
-
 }

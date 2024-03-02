@@ -1,22 +1,18 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace ECommerceStore.Models
+namespace ECommerceStore.Models;
+
+public class OrderItem
 {
-    public class OrderItem
-    {
+    public long Id { get; set; }
 
-        public long Id { get; set; }
+    public int Quantity { get; set; }
 
-        public int Quantity { get; set; }
+    public double UnitPrice { get; set; }
 
-        public double UnitPrice { get; set; }
-        
-        public long ProductId { get; set; }
+    public long ProductId { get; set; }
 
-        public long? OrderId { get; set; }
+    public long? OrderId { get; set; }
 
-        [JsonIgnore]
-        public Order? Order { get; set; }
-    }
+    [JsonIgnore] public Order? Order { get; set; }
 }
