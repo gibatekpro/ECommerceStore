@@ -113,20 +113,37 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
 //database operations when the program first starts
 using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateScope())
 {
-    //Create User
+    
     var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    var email = "manager@gmail.com";
-    var password = "Password123,"; //Password must contain special character
+    //Create UserA
+    var emailA = "manager@gmail.com";
+    var passwordA = "Password123,"; //Password must contain special character
 
-    if (await userManager.FindByEmailAsync(email) == null)
+    if (await userManager.FindByEmailAsync(emailA) == null)
     {
         var user = new IdentityUser();
-        user.Email = email;
-        user.UserName = email;
+        user.Email = emailA;
+        user.UserName = emailA;
         user.EmailConfirmed = true;
 
-        await userManager.CreateAsync(user, password);
+        await userManager.CreateAsync(user, passwordA);
+
+        await userManager.AddToRolesAsync(user,
+            new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
+    }
+    
+    //Create UserB
+    var emailB = "gibahtony@gmail.com";
+    var passwordB = "Password123,"; //Password must contain special character
+    if (await userManager.FindByEmailAsync(emailB) == null)
+    {
+        var user = new IdentityUser();
+        user.Email = emailB;
+        user.UserName = emailB;
+        user.EmailConfirmed = true;
+
+        await userManager.CreateAsync(user, passwordB);
 
         await userManager.AddToRolesAsync(user,
             new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
