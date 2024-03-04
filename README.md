@@ -1,47 +1,68 @@
 # ECommerceStore
+Author: Gibah Anthony
 
-A .NET Core (C#) RESTful backend service with the following features: • SQL/SQL Server database with at least 5 tables
-and foreign key relationships. • Implementation of JWT token for user authentication. • Integration of Identity
-Framework for user management, roles, and access control. • Email service triggered upon user sign-up.
+Organization: Gibatekpro
 
-Checkout sample:
+[Base url](https://storecomerce.azurewebsites.net)
 
+[Rest-Api Base url](https://storecomerce.azurewebsites.net/api)
+
+[Swagger url](https://storecomerce.azurewebsites.net/swagger/index.html)
+
+[Github url](https://github.com/gibatekpro/ECommerceStore)
+
+## Description
+
+This project provides provides a Restful Service for an E-Commerce websites.
+It simulates the purchase of items on a pre-populated database
+
+A .NET Core (C#) RESTful backend service with the following features: 
+* SQL/SQLite Server database with Entities
+and foreign key relationships.
+
+* Implementation of JWT token for user authentication. 
+
+* Integration of Identity Framework for user management, roles, and access control. 
+
+* Email service triggered upon user sign-up.
+
+* Authentication and authorization
+
+* Use of git for version control
+
+## Usage
+Checkout sample (Must be authenticated)
+```json
 {
-"customer":{
-"firstName":"Tony",
-"lastName":"Gibah",
-"email":"tony@test.com"
-},
-"shippingAddress":{
-"street":"Wembley",
-"city":"Brent",
-"state":"London",
-"country":"United Kingdom",
-"zipCode":"HA9 0FR"
-},
-"billingAddress":{
-"street":"Wembley",
-"city":"Brent",
-"state":"London",
-"country":"United Kingdom",
-"zipCode":"HA9 0FR"
-},
-"order":{
-"totalPrice":36.98,
-"totalQuantity":2
-},
-"orderItems":[
-{
-"imageUrl":"assets/images/products/coffeemugs/coffeemug.png",
-"quantity":1,
-"unitPrice":18.99,
-"productId":26
-},
-{
-"imageUrl":"assets/images/products/mousepads/mousepad.png",
-"quantity":1,
-"unitPrice":17.99,
-"productId":51
+  "userProfile":{
+    "firstName":"Tony",
+    "lastName":"Gibah"
+  },
+  "shippingAddress":{
+    "street":"Wembley",
+    "city":"Brent",
+    "state":"London",
+    "country":"United Kingdom",
+    "zipCode":"HA9 0FR"
+  },
+  "billingAddress":{
+    "street":"Wembley",
+    "city":"Brent",
+    "state":"London",
+    "country":"United Kingdom",
+    "zipCode":"HA9 0FR"
+  },
+  "orderItems":[
+    {
+
+      "quantity":1,
+      "productId":30
+    },
+    {
+
+      "quantity":1,
+      "productId":20
+    }
+  ]
 }
-]
-}
+```

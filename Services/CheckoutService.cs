@@ -32,6 +32,9 @@ public class CheckoutService
         try
         {
             await _Context.SaveChangesAsync();
+            
+            //Purchase successful, Now reduce Units in stock for purchased products
+            await ReduceUnitsInStock(order);
         }
         catch (Exception ex)
         {
@@ -40,6 +43,31 @@ public class CheckoutService
         }
 
         return order;
+    }
+
+    private async Task ReduceUnitsInStock(Order order)
+    {
+        foreach (var orderItem in order.OrderItems)
+        { 
+            var product = await _Context.Products.FindAsync(orderItem.ProductId);
+            
+            //Check if product exists
+            if (product != null)
+            {
+                //set new Units in stock for product
+                product.UnitsInStock -= orderItem.Quantity;
+
+                try
+                {
+                    await _Context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+                
+            }
+        }
     }
 
     private async Task<Order> GetOrder()
@@ -55,15 +83,31 @@ public class CheckoutService
             BillingAddress = _PurchaseDto.BillingAddress.ToAddress(),
             OrderStatus = await SetOrderStatus(),
             UserProfile = await SetUserProfile(),
-            OrderItems = SetOrderItems()
+            OrderItems = await SetOrderItems()
         };
     }
 
-    private ICollection<OrderItem> SetOrderItems()
+    private async Task<ICollection<OrderItem>> SetOrderItems()
     {
         ICollection<OrderItem> orderItems = new List<OrderItem>();
 
-        foreach (var orderItem in _PurchaseDto.OrderItems) orderItems.Add(orderItem.ToOrderItem());
+        foreach (var orderItem in _PurchaseDto.OrderItems)
+        { 
+            var product = await _Context.Products.FindAsync(orderItem.ProductId);
+            
+            //Check if we have enough products to sell
+            if (product != null && product.Active == false)
+            {
+                throw new Exception($"Product with ID {orderItem.ProductId} is not active.");
+            }
+
+            if (product != null && orderItem.Quantity > product.UnitsInStock)
+            {
+                throw new Exception($"Product with ID {orderItem.ProductId} does not have enough quantity in stock.");
+            }
+            
+            orderItems.Add(orderItem.ToOrderItem());
+        }
 
         return orderItems;
     }
