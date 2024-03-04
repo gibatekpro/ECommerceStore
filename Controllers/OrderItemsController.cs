@@ -8,7 +8,7 @@ namespace ECommerceStore.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Manager,Admin")]
+[Authorize(Roles = "SuperAdmin,Manager,Admin")]
 public class OrderItemsController : ControllerBase
 {
     //Auth: ONLY Manager and Admin should be able to access the OrderItems Api directly

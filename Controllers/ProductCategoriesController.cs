@@ -48,7 +48,7 @@ public class ProductCategoriesController : ControllerBase
     // PUT: api/ProductCategories/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<IActionResult> PutProductCategory(long id, ProductCategory productCategory)
     {
         
@@ -78,7 +78,7 @@ public class ProductCategoriesController : ControllerBase
     // POST: api/ProductCategories
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory)
     {
         
@@ -95,7 +95,7 @@ public class ProductCategoriesController : ControllerBase
 
     // DELETE: api/ProductCategories/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<IActionResult> DeleteProductCategory(long id)
     {
         _logger.LogInformation(MyLogEvents.DeleteItem,

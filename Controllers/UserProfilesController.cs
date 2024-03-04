@@ -21,7 +21,7 @@ public class UserProfilesController : ControllerBase
 
     // GET: api/UserProfiles
     [HttpGet]
-    [Authorize(Roles = "Manager, Admin")]
+    [Authorize(Roles = "SuperAdmin, Manager, Admin")]
     public async Task<ActionResult<IEnumerable<UserProfile>>> GetUserProfiles()
     {
         
@@ -48,7 +48,7 @@ public class UserProfilesController : ControllerBase
 
     // GET: api/UserProfiles/5
     [HttpGet("{id}")]
-    [Authorize(Roles = "Manager, Admin, User")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin,User")]
     public async Task<ActionResult<UserProfile>> GetUserProfile(long id)
     {
         var userProfile = await _context.UserProfiles.FindAsync(id);
@@ -61,7 +61,7 @@ public class UserProfilesController : ControllerBase
     // PUT: api/UserProfiles/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    [Authorize(Roles = "Manager, Admin, User")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin,User")]
     public async Task<IActionResult> PutUserProfile(long id, UserProfileDto userProfileDto)
     {
         try
@@ -88,7 +88,7 @@ public class UserProfilesController : ControllerBase
     // POST: api/UserProfiles
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    [Authorize(Roles = "Manager, Admin")]
+    [Authorize(Roles = "SuperAdmin, Manager, Admin")]
     public async Task<ActionResult<UserProfile>> PostUserProfile(UserProfile userProfile)
     {
         _context.UserProfiles.Add(userProfile);
@@ -99,7 +99,7 @@ public class UserProfilesController : ControllerBase
 
     // DELETE: api/UserProfiles/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Manager, Admin")]
+    [Authorize(Roles = "SuperAdmin, Manager, Admin")]
     public async Task<IActionResult> DeleteUserProfile(long id)
     {
         var userProfile = await _context.UserProfiles.FindAsync(id);

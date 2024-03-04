@@ -1,45 +1,30 @@
 ﻿<Properties StartupConfiguration="{5178CFB3-5DBA-437B-8F39-887ED8C9C487}|https">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.ECommerceStore PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="appsettings.json" Line="12" Column="1" />
-      <File FileName="Properties/launchSettings.json" Line="20" Column="32" />
-      <File FileName="Models/ProductContext.cs" Line="25" Column="49" />
-      <File FileName="Program.cs" Line="8" Column="45" />
-      <File FileName="Models/ProductCategory.cs" Line="9" Column="1" />
-      <File FileName="Models/Product.cs" Line="29" Column="5" />
-      <File FileName="refresh-database-with-100-products.sql" Line="1" Column="1" />
-      <File FileName="README.md" Line="12" Column="6" />
-      <File FileName="Models/Address.cs" Line="22" Column="11" />
-      <File FileName="Models/Order.cs" Line="46" Column="24" />
-      <File FileName="Models/Customer.cs" Line="19" Column="16" />
-      <File FileName="Models/OrderItem.cs" Line="17" Column="1" />
-      <File FileName="Controllers/ProductCategoriesController.cs" Line="1" Column="1" />
-      <File FileName="Controllers/ProductsController.cs" Line="70" Column="14" />
-      <File FileName="Models/Purchase.cs" Line="16" Column="16" />
-      <File FileName="Models/PurchaseResponse.cs" Line="7" Column="56" />
-      <File FileName="Controllers/Checkout.cs" Line="90" Column="10" />
-      <File FileName="checkout-sample.json" Line="1" Column="1" />
-      <File FileName="Models/PurchaseExample.cs" Line="6" Column="40" />
+      <File FileName="appsettings.json" />
+      <File FileName="Properties/launchSettings.json" />
+      <File FileName="Models/ProductContext.cs" />
+      <File FileName="Program.cs" Line="8" Column="37" />
+      <File FileName="Models/ProductCategory.cs" />
+      <File FileName="Models/Product.cs" />
+      <File FileName="README.md" />
+      <File FileName="Models/Address.cs" />
+      <File FileName="Models/Order.cs" />
+      <File FileName="Models/OrderItem.cs" />
+      <File FileName="Controllers/ProductCategoriesController.cs" />
+      <File FileName="Controllers/ProductsController.cs" />
+      <File FileName="Models/Purchase.cs" />
+      <File FileName="Models/PurchaseResponse.cs" />
+      <File FileName="checkout-sample.json" />
+      <File FileName="Models/PurchaseExample.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="ECommerceStore" expanded="True">
+          <Node name="ECommerceStore">
             <Node name="ECommerceStore">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Migrations" expanded="True">
-                <Node name="20240224195119_OrderDBUpdate.cs" expanded="True" />
-              </Node>
-              <Node name="Models" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="appsettings.json" expanded="True" />
               <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
@@ -47,4 +32,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

@@ -8,7 +8,7 @@ namespace ECommerceStore.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Manager,Admin")]
+[Authorize(Roles = "SuperAdmin,Manager,Admin")]
 public class OrderStatusController : ControllerBase
 {
     

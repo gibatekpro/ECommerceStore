@@ -7,11 +7,11 @@ namespace ECommerceStore.Controllers;
 
 [Route("api/[controller]")]
 
-//Only the Manager (Created when program is initially run
+//Only the SuperAdmin and Manager (Created when program is initially run
 //will be allowed to perform CRUD on Roles.
 //This will ensure that only the Manager can higher Admins
 [ApiController]
-[Authorize(Roles = "Manager")]
+[Authorize(Roles = "SuperAdmin,Manager")]
 public class RolesController : ControllerBase
 {
     private readonly RoleManager<IdentityRole> _roleManager;

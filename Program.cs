@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -5,6 +6,7 @@ using ECommerceStore.Controllers;
 using ECommerceStore.Models;
 using ECommerceStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -68,11 +70,18 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<ProductContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Connection")));
+//Select type of Database being used
+if (DbType.IsSqlLite)
+{
+    builder.Services.AddDbContext<ProductContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("ConnectionLite")));
+}
+else
+{
+    builder.Services.AddDbContext<ProductContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
-// builder.Services.AddDbContext<ProductContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+}
 
 //logger
 builder.Logging.ClearProviders();
@@ -80,6 +89,13 @@ builder.Logging.AddConsole();
 
 
 var app = builder.Build();
+
+//https://learn.microsoft.com/en-us/aspnet/core/tutorials/publish-to-azure-api-management-using-vs?view=aspnetcore-8.0
+//Azure API Management needs the Swagger definitions to always be present,
+//regardless of the application's environment. To ensure they are always generated,
+//move app.UseSwagger(); outside of the if (app.Environment.IsDevelopment()) block.
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -90,7 +106,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers(); //Map controllers automatically
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 //database operations when the program first starts
 using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateScope())
@@ -102,7 +118,7 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
     //Create Roles
     var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var roles = new[]
-        { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() }; //Roles to be added
+        { RoleType.SuperAdmin.ToString(), RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() }; //Roles to be added
 
     foreach (var role in roles)
         //Ensure the role does not exist to prevent duplicate entry
@@ -130,7 +146,7 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
         await userManager.CreateAsync(user, passwordA);
 
         await userManager.AddToRolesAsync(user,
-            new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
+            new[] { RoleType.SuperAdmin.ToString(), RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
     }
     
     //Create UserB
@@ -146,7 +162,7 @@ using (var serviceScope = ((IApplicationBuilder)app).ApplicationServices.CreateS
         await userManager.CreateAsync(user, passwordB);
 
         await userManager.AddToRolesAsync(user,
-            new[] { RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
+            new[] { RoleType.SuperAdmin.ToString(), RoleType.Manager.ToString(), RoleType.Admin.ToString(), RoleType.User.ToString() });
     }
 }
 

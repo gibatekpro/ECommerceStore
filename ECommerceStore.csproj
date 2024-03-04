@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <None Remove="Services\" />
+        <None Remove="Properties\PublishProfiles\ECommerceStoreAPI - Zip Deploy.pubxml" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="MailKit" Version="4.3.0" />
@@ -35,5 +36,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="obj\" />
+      <Folder Include="Properties\PublishProfiles\" />
     </ItemGroup>
 </Project>

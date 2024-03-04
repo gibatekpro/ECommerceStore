@@ -127,10 +127,10 @@ public class ProductsController : ControllerBase
     // PUT: api/Products/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Product>> PutProduct(long id, ProductDto productDto)
     {
-        //Auth: Only a Manager and Admin is allowed to update a product in the store
+        //Auth: Only a SuperAdmin, Manager and Admin is allowed to update a product in the store
 
         
         _logger.LogInformation(MyLogEvents.UpdateItem,"Updating Product with Product Id = [{id}] at {DT} ",
@@ -169,10 +169,10 @@ public class ProductsController : ControllerBase
     // PUT: api/Products/ChangeProductCategory
     // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("ChangeProductCategory")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Product>> ChangeProductCategory([FromQuery] long productId, [FromQuery]long categoryId)
     {
-        //Auth: Only Manager and Admin can update the category of a product
+        //Auth: Only SuperAdmin, Manager and Admin can update the category of a product
         
         _logger.LogInformation(MyLogEvents.UpdateItem,
             "Updating Product Status Id = [{productId}] with Category Id = [{categoryId}] at {DT} ",
@@ -220,10 +220,10 @@ public class ProductsController : ControllerBase
     // POST: api/Products
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Product>> PostProduct(ProductDto productDto)
     {
-        //Auth: Only a Manager and Admin is allowed to update a product in the store
+        //Auth: Only a SuperAdmin, Manager and Admin is allowed to update a product in the store
         
         _logger.LogInformation(MyLogEvents.InsertItem,"Inserting Product at {DT} ", 
             DateTime.UtcNow.ToLongTimeString());
@@ -244,10 +244,10 @@ public class ProductsController : ControllerBase
 
     // DELETE: api/Products/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<IActionResult> DeleteProduct(long id)
     {
-        //Auth: Only a Manager and Admin is allowed to update a product in the store
+        //Auth: Only a SuperAdmin, Manager and Admin is allowed to update a product in the store
         
         
         _logger.LogInformation(MyLogEvents.DeleteItem,"Deleting Product with Product Id = [{id}] at {DT} ",

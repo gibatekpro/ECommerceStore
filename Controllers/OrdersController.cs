@@ -28,7 +28,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders
     [HttpGet]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
     {
         //Auth: Only Manager and Admin can fetch all Orders in database
@@ -40,7 +40,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders/GetUserOrders
     [HttpGet("GetUserOrders")]
-    [Authorize(Roles = "Manager,Admin,User")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin,User")]
     public async Task<ActionResult<IEnumerable<Order>>> GetUserOrders([FromQuery] string userId)
     {
         //Auth: A user must only be able to fetch their own orders and NOT
@@ -74,7 +74,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders/FindByOrderStatusName
     [HttpGet("FindByOrderStatusName")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByOrderStatusName([FromQuery] string status)
     {
         //Auth: Authorisation required
@@ -99,7 +99,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders/5
     [HttpGet("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Order>> GetOrder(long id)
     {
         //Auth: Only Manager and Admin can fetch a single Order in database
@@ -122,7 +122,7 @@ public class OrdersController : ControllerBase
     // PUT: api/Orders/5
     // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<IActionResult> PutOrder(long id, Order order)
     {
         //Auth: Only Manager and Admin can update a single Order in database
@@ -151,7 +151,7 @@ public class OrdersController : ControllerBase
     // PUT: api/Orders/ChangeOrderStatus
     // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("ChangeOrderStatus")]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Order>> ChangeOrderStatus([FromQuery] long orderId, [FromQuery]long statusId)
     {
         //Auth: Only Manager and Admin can update the status of an order
@@ -201,7 +201,7 @@ public class OrdersController : ControllerBase
     // POST: api/Orders
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Order>> PostOrder(Order order)
     {
         //Auth: Only Manager and Admin can update a single Order in database
