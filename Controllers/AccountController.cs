@@ -108,24 +108,26 @@ public class AccountController : ControllerBase
         _logger.LogInformation(MyLogEvents.SigningInAccount,"Login in account at {DT} ",
             DateTime.UtcNow.ToLongTimeString());
 
-        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-
-        if (result.Succeeded)
-        {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            var roles = await _userManager.GetRolesAsync(user);
-            var token = GenerateJwtToken(user, roles);
-            
-            _logger.LogInformation(MyLogEvents.SigningInAccount,"Login successful at {DT}. Jwt Token generated: {token}  ",
-                DateTime.UtcNow.ToLongTimeString(), token);
-            
-            return Ok(new LoginResponse("Login successful", user.Id, user.Email!, token));
-        }
         
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = GenerateJwtToken(user, roles);
+            
+                _logger.LogInformation(MyLogEvents.SigningInAccount,"Login successful at {DT}. Jwt Token generated: {token}  ",
+                    DateTime.UtcNow.ToLongTimeString(), token);
+            
+                return Ok(new LoginResponse("Login successful", user.Id, user.Email!, token));
+            }
+
         _logger.LogWarning(MyLogEvents.AuthenticationFailed,"Failed to log in at {DT} ",
             DateTime.UtcNow.ToLongTimeString());
         
-        return Unauthorized("Invalid login attempt.");
+        return Unauthorized(new ExceptionHandler("Failed Login attempt. Email may not be verified or Incorrect Credentials." ,new Exception(result.ToString())));
+
     }
 
     [HttpPost("logout")]

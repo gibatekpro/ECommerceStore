@@ -79,6 +79,10 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "Microsoft.Extensions.Logging.AzureAppServices": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Microsoft.NETCore.App": {
               "target": "Package",
               "version": "[2.2.8, )"

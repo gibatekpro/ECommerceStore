@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceStore.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20240304153957_DBUpdate")]
-    partial class DBUpdate
+    [Migration("20240305215155_LoggerUpdate")]
+    partial class LoggerUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -204,7 +204,7 @@ public class OrdersController : ControllerBase
     [Authorize(Roles = "SuperAdmin,Manager,Admin")]
     public async Task<ActionResult<Order>> PostOrder(Order order)
     {
-        //Auth: Only Manager and Admin can update a single Order in database
+        //Auth: Only SuperAdmin, Manager and Admin can update a single Order in database
         //Users will only be able to create order through checkout
         
         _logger.LogInformation(MyLogEvents.InsertItem,"Inserting Order at {DT} ", 

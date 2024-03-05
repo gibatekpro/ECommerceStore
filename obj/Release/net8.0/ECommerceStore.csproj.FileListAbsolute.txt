@@ -1,6 +1,5 @@
 /Users/tony/ECommerceStore/bin/Release/net8.0/appsettings.Development.json
 /Users/tony/ECommerceStore/bin/Release/net8.0/appsettings.json
-/Users/tony/ECommerceStore/bin/Release/net8.0/checkout-sample.json
 /Users/tony/ECommerceStore/bin/Release/net8.0/ECommerceStore
 /Users/tony/ECommerceStore/bin/Release/net8.0/ECommerceStore.deps.json
 /Users/tony/ECommerceStore/bin/Release/net8.0/ECommerceStore.runtimeconfig.json
@@ -292,3 +291,4 @@
 /Users/tony/ECommerceStore/obj/Release/net8.0/ECommerceStore.pdb
 /Users/tony/ECommerceStore/obj/Release/net8.0/ECommerceStore.genruntimeconfig.cache
 /Users/tony/ECommerceStore/obj/Release/net8.0/ref/ECommerceStore.dll
+/Users/tony/ECommerceStore/bin/Release/net8.0/Microsoft.Extensions.Logging.AzureAppServices.dll

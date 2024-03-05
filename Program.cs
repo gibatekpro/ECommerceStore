@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 
@@ -86,6 +87,18 @@ else
 //logger
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+builder.Logging.AddAzureWebAppDiagnostics();
+
+builder.Services.Configure<AzureFileLoggerOptions>(options =>
+{
+    options.FileName = "azure-diagnostics-";
+    options.FileSizeLimit = 50 * 1024;
+    options.RetainedFileCountLimit = 5;
+});
+builder.Services.Configure<AzureBlobLoggerOptions>(options =>
+{
+    options.BlobName = "log.txt";
+});
 
 
 var app = builder.Build();

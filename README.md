@@ -13,7 +13,7 @@ Organization: Gibatekpro
 
 ## Description
 
-This project provides provides a Restful Service for an E-Commerce websites.
+This project provides provides a Restful Service for an E-Commerce website.
 It simulates the purchase of items on a pre-populated database
 
 A .NET Core (C#) RESTful backend service with the following features: 

@@ -5,7 +5,7 @@
 namespace ECommerceStore.Migrations
 {
     /// <inheritdoc />
-    public partial class DBUpdate : Migration
+    public partial class LoggerUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
