@@ -1,0 +1,12 @@
+
+
+Rest-Api Base url -  https://storecomerce.azurewebsites.net/api
+
+
+
+Swagger url   -  https://storecomerce.azurewebsites.net/swagger/index.html
+
+
+
+Github url  -  https://github.com/gibatekpro/ECommerceStore
+

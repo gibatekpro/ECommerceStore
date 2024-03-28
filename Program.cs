@@ -3,7 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using ECommerceStore.Controllers;
+using ECommerceStore.Mapper;
 using ECommerceStore.Models;
+using ECommerceStore.Repository;
 using ECommerceStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +16,28 @@ using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy  =>
+        {
+            policy.WithOrigins(
+                "http://192.168.1.102",
+                "http://192.168.1.105",
+                "http://192.168.1.1",
+                "http://127.0.0.1",
+                "http://192.168.1.255",
+                "http://192.168.1.102/"
+                ).AllowAnyOrigin().AllowAnyMethod();
+        });
+});
+
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddAutoMapper(typeof(PagedResponseProfile));
+builder.Services.AddScoped<PagedResponseProfile>();
 
 // Add services to the container.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -76,8 +100,7 @@ if (DbType.IsSqlLite)
 {
     builder.Services.AddDbContext<ProductContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("ConnectionLite")));
-}
-else
+}else
 {
     builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
@@ -87,7 +110,7 @@ else
 //logger
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Logging.AddAzureWebAppDiagnostics();
+
 
 builder.Services.Configure<AzureFileLoggerOptions>(options =>
 {
@@ -109,6 +132,8 @@ var app = builder.Build();
 //move app.UseSwagger(); outside of the if (app.Environment.IsDevelopment()) block.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

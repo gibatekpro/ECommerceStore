@@ -292,3 +292,4 @@
 /Users/tony/ECommerceStore/obj/Debug/net8.0/ECommerceStore.genruntimeconfig.cache
 /Users/tony/ECommerceStore/obj/Debug/net8.0/ref/ECommerceStore.dll
 /Users/tony/ECommerceStore/bin/Debug/net8.0/Microsoft.Extensions.Logging.AzureAppServices.dll
+/Users/tony/ECommerceStore/bin/Debug/net8.0/AutoMapper.dll

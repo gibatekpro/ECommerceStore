@@ -15,6 +15,7 @@
         <None Remove="Properties\PublishProfiles\ECommerceStoreAPI - Zip Deploy.pubxml" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="MailKit" Version="4.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />

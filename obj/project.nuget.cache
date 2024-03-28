@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oNdF7ZiWdsNfBiZRGiwXCA1nbkRPFyIJNgY9j67YjwH6yAStVh+aHxlwa09DUPovzmb19HydVj7fH2w0dyXENA==",
+  "dgSpecHash": "vMzE8IifE/CjEzDxMOab9ud0yJxsmkHW747IABi7xhaNcjGbOZImP8M0T8jHbb078uZs1oFxDfMYzzPIU8QHzA==",
   "success": true,
   "projectFilePath": "/Users/tony/ECommerceStore/ECommerceStore.csproj",
   "expectedPackageFiles": [
+    "/Users/tony/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/tony/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
     "/Users/tony/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",

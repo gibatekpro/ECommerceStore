@@ -1,6 +1,6 @@
 namespace ECommerceStore.Models;
 
-public class ExceptionHandler : Exception
+public class ExceptionHandler: Exception
 {
     public ExceptionHandler()
     {
